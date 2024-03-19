@@ -1,0 +1,111 @@
+﻿@using BusinessObject.Models
+@using Newtonsoft.Json
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<BusinessObject.Models.Book>
+@{
+    ViewData["Title"] = "Book List";
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+<style>
+    .spacer {
+        display: inline-block;
+        width: 50px;
+    }
+</style>
+<h1>Book</h1>
+<form method="post" asp-controller="Book" asp-action="List">
+    <p>
+        Book Name: <input type="text" name="searchBook" />
+        <span class="spacer"></span>
+        Price:
+        <select name="priceFilter">
+            <option value="">All</option>
+            <option value="0-5000">$0 - $5000</option>
+            <option value="5000-10000">$5000 - $10000</option>
+            <option value="10000-15000">$10000 - $15000</option>
+            <option value="15000-99999">$15000++</option>
+        </select>
+        <span class="spacer"></span>
+        Category: <select name="CategoryId">
+            @* @foreach (var item in Category)
+            {
+                <option value="@item.CategoryId">@item.CategoryName</option>
+                
+            } *@
+            <option value="All">All</option>
+            <option value="1">Novel</option>
+            <option value="2">Science</option>
+            <option value="3">History</option>
+            <option value="4">Comic</option>
+            <option value="5">Academic</option>
+        </select>
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.BookImage)" width="110px" height="150px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Buy", "Buy", new { id = item.BookId})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -38,7 +38,7 @@ namespace BusinessObject.Models
 
                 entity.Property(e => e.BookId).HasColumnName("BookID");
 
-                entity.Property(e => e.BookImage).HasColumnType("image");
+                entity.Property(e => e.BookImage).IsUnicode(false);
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
@@ -104,15 +104,16 @@ namespace BusinessObject.Models
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
+                entity.HasKey(e => e.OrderId)
+                    .HasName("PK__OrderDet__D3B9D30C5699DA1F");
+
                 entity.ToTable("OrderDetail");
 
-                entity.Property(e => e.OrderDetailId)
+                entity.Property(e => e.OrderId)
                     .ValueGeneratedNever()
-                    .HasColumnName("OrderDetailID");
+                    .HasColumnName("OrderID");
 
                 entity.Property(e => e.BookId).HasColumnName("BookID");
-
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
                 entity.Property(e => e.TotalPrice).HasColumnType("decimal(10, 2)");
 
@@ -122,8 +123,9 @@ namespace BusinessObject.Models
                     .HasConstraintName("FK__OrderDeta__BookI__5535A963");
 
                 entity.HasOne(d => d.Order)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.OrderId)
+                    .WithOne(p => p.OrderDetail)
+                    .HasForeignKey<OrderDetail>(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__OrderDeta__Order__5441852A");
             });
 
@@ -134,9 +136,7 @@ namespace BusinessObject.Models
 
                 entity.ToTable("OrderTbl");
 
-                entity.Property(e => e.OrderId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("OrderID");
+                entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
                 entity.Property(e => e.Freight).HasColumnType("decimal(10, 2)");
 

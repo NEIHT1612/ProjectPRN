@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Models;
 using DataAccess.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -23,19 +24,30 @@ namespace BookStoreWebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(Member member)
         {
-            var _member = memberRepository.CheckAccount(member.Email, member.Password);
-            if ( _member != null)
+            if (ModelState.IsValid)
             {
-                // Lưu trữ đối tượng Member trong TempData dưới dạng chuỗi JSON
-                TempData["MemberData"] = JsonConvert.SerializeObject(_member);
-                return RedirectToAction("Index", "Home");
+                var _member = memberRepository.CheckAccount(member.Email, member.Password);
+                if (_member != null)
+                {
+                    HttpContext.Session.SetString("MemberId", _member.MemberId.ToString());
+                    return RedirectToAction("List", "Book");
+                }
+                else if (member.Email.Equals("admin", StringComparison.OrdinalIgnoreCase) && member.Password.Equals("123"))
+                {
+                    HttpContext.Session.SetString("admin", "admin");
+                    return RedirectToAction("Index", "Member");
+                }
+                else
+                {
+                    ViewBag.Message = "Email or Password is wrong !!!";
+                    return View(member);
+                }
             }
-            if(member.Email.Equals("admin") && member.Password.Equals("123"))
+            else
             {
-                return RedirectToAction("Index", "Member");
+                ViewBag.Message = "Invalid input data.";
+                return View(member);
             }
-            ViewBag.Message = "Email or Password is wrong !!!";
-            return View(member);
         }
         public IActionResult Register()
         {
@@ -78,6 +90,7 @@ namespace BookStoreWebApp.Controllers
         }
         public IActionResult Logout()
         {
+            HttpContext.Session.Remove("MemberId");
             return RedirectToAction(nameof(Login));
         }
     }

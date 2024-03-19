@@ -1,14 +1,21 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
+@using Microsoft.AspNetCore.Http
+
 @using BusinessObject.Models
-@using Newtonsoft.Json
+@* @using Newtonsoft.Json
 @{
     var memberJson = TempData["MemberData"] as string;
   
     var memberData = JsonConvert.DeserializeObject<Member>(memberJson);
+} *@
+@{
+    // Lấy đối tượng HttpContext từ môi trường Razor
+    var httpContext = Context.Request.HttpContext;
+
+    // Kiểm tra nếu session có tồn tại và giá trị "MemberId" được đặt
+    var memberId = int.Parse(httpContext.Session.GetString("MemberId"));
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +59,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="DetailsMember" asp-route-id="@memberData.MemberId">My Account</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="DetailsMember" asp-route-id="@memberId">My Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="List" asp-route-id="@memberId">My Order</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">

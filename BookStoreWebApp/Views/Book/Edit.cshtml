@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BookImage" class="control-label"></label>
-                <input asp-for="BookImage" type="file" class="form-control" />
+                <input asp-for="BookImage" class="form-control" />
                 <span asp-validation-for="BookImage" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,8 +44,15 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
+                <label asp-for="CategoryId" class="control-label">CategoryName</label>
+                @* <input asp-for="CategoryId" class="form-control" /> *@
+                <select asp-for="CategoryId" class="form-control">
+                    <option value="1">Novel</option>
+                    <option value="2">Science</option>
+                    <option value="3">History</option>
+                    <option value="4">Comic</option>
+                    <option value="5">Academic</option>
+                </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">

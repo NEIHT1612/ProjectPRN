@@ -12,7 +12,7 @@ namespace BusinessObject.Models
 
         public int BookId { get; set; }
         public string? Title { get; set; }
-        public byte[]? BookImage { get; set; }
+        public string? BookImage { get; set; }
         public string? SerialNumber { get; set; }
         public int? Quantity { get; set; }
         public decimal? Price { get; set; }

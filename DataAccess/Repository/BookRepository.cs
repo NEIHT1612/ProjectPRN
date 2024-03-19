@@ -15,6 +15,14 @@ namespace DataAccess.Repository
 
         public IEnumerable<Book> GetBooks() => BookDAO.Instance.GetBookList();
 
+        public List<Book> GetBooksByCategory(int categoryId) => BookDAO.Instance.GetBooksByCategory(categoryId);
+
+        public List<Book> GetBooksByName(string searchBook) => BookDAO.Instance.GetBooksByName(searchBook);
+
+        public List<Book> GetBooksByNameAndPrice(string searchBook, decimal minPrice, decimal maxPrice) => BookDAO.Instance.GetBooksByNameAndPrice(searchBook, minPrice, maxPrice);
+
+        public List<Book> GetBooksByPrice(decimal minPrice, decimal maxPrice) => BookDAO.Instance.GetBooksByPrice(minPrice, maxPrice);
+
         public void InsertBook(Book book) => BookDAO.Instance.AddNew(book);
 
         public void UpdateBook(Book book) => BookDAO.Instance.Update(book);

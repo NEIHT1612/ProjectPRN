@@ -32,7 +32,7 @@
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
+                @Html.DisplayNameFor(model => model.Category.CategoryName)
             </th>
             <th></th>
         </tr>
@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookImage)
+                <img src="@Html.DisplayFor(modelItem => item.BookImage)" width="110px" height="150px"/> 
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SerialNumber)
@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.BookId }) |

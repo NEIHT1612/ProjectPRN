@@ -33,7 +33,7 @@ namespace DataAccess
             try
             {
                 using var context = new BookStorePRNContext();
-                books = context.Books.ToList();
+                books = context.Books.Include(x => x.Category).ToList();
             }
             catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace DataAccess
             try
             {
                 using var context = new BookStorePRNContext();
-                book = context.Books.SingleOrDefault(b => b.BookId == BookID);
+                book = context.Books.Include(x => x.Category).SingleOrDefault(b => b.BookId == BookID);
             }
             catch (Exception ex)
             {
@@ -121,6 +121,66 @@ namespace DataAccess
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public List<Book> GetBooksByName(string searchBook)
+        {
+            var books = new List<Book>();
+            try
+            {
+                using var context = new BookStorePRNContext();
+                books = context.Books.Where(p => p.Title.Contains(searchBook)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return books;
+        }
+
+        public List<Book> GetBooksByNameAndPrice(string searchBook, decimal minPrice, decimal maxPrice)
+        {
+            var books = new List<Book>();
+            try
+            {
+                using var context = new BookStorePRNContext();
+                books = context.Books.Where(p => (p.Price >= minPrice && p.Price <= maxPrice) && (p.Title.Contains(searchBook))).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return books;
+        }
+
+        public List<Book> GetBooksByPrice(decimal minPrice, decimal maxPrice)
+        {
+            var books = new List<Book>();
+            try
+            {
+                using var context = new BookStorePRNContext();
+                books = context.Books.Where(p => (p.Price >= minPrice && p.Price <= maxPrice)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return books;
+        }
+
+        public List<Book> GetBooksByCategory(int categoryId)
+        {
+            var books = new List<Book>();
+            try
+            {
+                using var context = new BookStorePRNContext();
+                books = context.Books.Where(p => p.CategoryId == categoryId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return books;
         }
     }
 }

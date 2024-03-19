@@ -1,8 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@{
+    var httpcontext = Context.Request.HttpContext;
+    var memberId = httpcontext.Session.GetString("MemberId");
+    var admin = httpcontext.Session.GetString("admin");
+}
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Go to <a asp-controller="Login" asp-action="Login">BookStore</a>.</p>
+    @if (!string.IsNullOrEmpty(memberId))
+    {
+        <p>Go to <a asp-controller="Book" asp-action="List">BookStore</a>.</p>
+    }
+    else if (!string.IsNullOrEmpty(admin))
+    {
+        <p>Go to <a asp-controller="Book" asp-action="Index">BookStore</a>.</p>
+    }
+    else
+    {
+        <p>Go to <a asp-controller="Login" asp-action="Login">Bookstore</a>.</p>
+    }
 </div>
