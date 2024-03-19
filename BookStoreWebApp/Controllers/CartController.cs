@@ -24,8 +24,9 @@ namespace BookStoreWebApp.Controllers
             return View(carts);
         }
 
-        public ActionResult List(int memberId)
+        public ActionResult List()
         {
+            int memberId = int.Parse(HttpContext.Session.GetString("MemberId"));
             var carts = orderTblRepository.GetOrdersByMemberId(memberId);
             return View(carts);
         }
